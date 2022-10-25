@@ -1,0 +1,77 @@
+
+Final Project
+
+Due Date:  NOTE: This project will not be accepted after the due date and time noted on Blackboard.   (NO EXCEPTIONS!)
+
+
+NOTE:  This is your final and must be your own work.   I will give little-to-no assistance on the C solution, but will answer all questions regarding the requirements.
+Please note policies of the course regarding plagiarism in the policies document under Course Information. 
+
+
+Problem Statement
+
+You are to create a project for a census bureau to obtain and analyze household income survey data within the Cincinnati area (including Northern Ky).  
+
+Data Collected: 
+
+•	Date of the survey – required
+•	State - required
+•	Ohio 
+•	Kentucky
+•	County - required
+•	The following counties will only be used for input:
+•	For Ohio
+•	Hamilton
+•	Butler
+
+•	For Kentucky
+•	Boone
+•	Kenton
+•	Race of head of household – required (Caucasian, African American, Hispanic, Asian, Other)
+•	Number in Household – required, must be greater than 0
+•	The household yearly income – required, must be numeric, must be greater than 0.
+
+Instructions
+
+•	Create an application  (Part 1) that will accept and validate all of the data collected and save it as a comma delimited text file.  All new data must be appended to the old data.
+•	Create another application (Part 2) that will read in the most recent text file, load it to a structure array, and process the array based on the action requested. The following letters represent the selections of a potential action from the user.  In other words, a user would enter “A” when prompted and the action from “A” below will be processed and printed (neatly) on the screen. 
+
+A.	Total Households Surveyed: Will show the total of the overall surveyed. 
+B.	Total Households Surveyed per County: Will show the total of the overall surveyed by county and state.  (Like example below). 
+C.	Total Households Surveyed per Race: Will show the total of the overall surveyed by county and state.  (Like example below). 
+D.	Average Household Income: Show the overall average household income for those that are surveyed.
+E.	Average Household Income by county and state: Will display the average household income by state and then by county (see below for example).
+F.	Average Household Income by race: Will display the average household income by race (see below for example).
+G.	Percentage below Poverty: Show the overall percentage of those below poverty based on the table below for all data collected. 
+H.	Percentage below Poverty by county and state: Show the overall percentage of those below poverty based on the table below for all data collected by county and state (see below of example). 
+I.	Percentage below Poverty by race: Show the overall percentage of those below poverty based on the table below for all data collected by race (see below of example). 
+
+•	Create a well designed modular program based on design techniques taught. 
+•	Use good naming conventions on all variables, procedures, functions, etc. 
+•	Make sure all functions and procedures are called “down”.
+•	All data in the second application must be loaded and processed within a structure array. 
+•	20 points extra credit if you can dynamically allocate the exact amount of memory needed for your structure array.   If not, use 100 entries as a static array.  (you would need to know how many records were added in Part 1 that could somehow be passed to Part 2). 
+•	AND YOU MUST USE POINTERS CORRECTLY.  LIKE YOU KNOW WHAT YOU ARE DOING.  
+
+
+
+Example layout of data for the various queries above:
+
+Average Household Income
+
+Ohio:   	$30,000
+   Hamilton:  	$40,000
+   Butler:  	$20,000
+ 
+Kentucky:	$37,500
+   Boone:	$40,000
+   Kenton:	$35,000
+
+
+Basis of Poverty: 
+
+•	Household of 1 and less than $12,000
+•	Household of 2 and less than $18,000
+•	Household of 3 and less than $25,000
+•	Household of 4 and less than $30,000
+•	Household of 5 or more and less than $40,000
