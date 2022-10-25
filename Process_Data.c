@@ -37,21 +37,21 @@ typedef struct
 // --------------------------------------------------------------------------------
 // Prototypes
 // --------------------------------------------------------------------------------
-int GetNumberOfRecords(FILE* pfilCensusData);
-void CreateArray(udtCensusRecordType** ppaudtCensusRecords, int intArraySize);
-void PopulateArrayFromFile(udtCensusRecordType** ppaudtCensusRecords, FILE* pfilCensusData, int intRecordCount);
-void CopyFileLineAtIndex(char strDestination[], FILE* pfilCensusData, int intLine);
+int GetNumberOfRecords(FILE *pfilCensusData);
+void CreateArray(udtCensusRecordType **ppaudtCensusRecords, int intArraySize);
+void PopulateArrayFromFile(udtCensusRecordType **ppaudtCensusRecords, FILE *pfilCensusData, int intRecordCount);
+void CopyFileLineAtIndex(char strDestination[], FILE *pfilCensusData, int intLine);
 void CopyCSVatIndex(char strDestination[], char strSourceCSV[], int intIndexCSV);
 char MainMenu();
 
-void DisplayHousesByCounty(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
-void DisplayHousesByRace(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
-void DisplayAverageHouseIncome(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
-void DisplayAvgIncomeCountyState(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
-void DisplayAvgIncomeByRace(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
-void DisplayPercentBelowPoverty(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
-void DisplayPovertyByCounty(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
-void DisplayPovertyByRace(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount);
+void DisplayHousesByCounty(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
+void DisplayHousesByRace(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
+void DisplayAverageHouseIncome(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
+void DisplayAvgIncomeCountyState(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
+void DisplayAvgIncomeByRace(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
+void DisplayPercentBelowPoverty(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
+void DisplayPovertyByCounty(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
+void DisplayPovertyByRace(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount);
 
 void SliceString(char strDestination[], char strSource[], int intStartIndex, int intLength);
 int GetStringLength(char strSource[]);
@@ -63,44 +63,52 @@ double GetPovertyThreshold(int intHeadCount);
 // --------------------------------------------------------------------------------
 void main()
 {
-	udtCensusRecordType* audtCensusRecords;
-	FILE* pfilCensusData = fopen("res/census_data.txt", "r");
-	
+	udtCensusRecordType *audtCensusRecords;
+	FILE *pfilCensusData = fopen("res/census_data.txt", "r");
+
 	int intRecordCount = GetNumberOfRecords(pfilCensusData);
-	
+
 	CreateArray(&audtCensusRecords, intRecordCount);
 	PopulateArrayFromFile(&audtCensusRecords, pfilCensusData, intRecordCount);
 
-	char chrChoice = MainMenu();
+	char chrContinue = 'y';
 
-	switch (chrChoice)
+	while (chrContinue == 'y' || chrContinue == 'Y')
 	{
-	case 'A':
-		printf("Total Households surveyed: %d\n\n", intRecordCount);
-		break;
-	case 'B':
-		DisplayHousesByCounty(&audtCensusRecords, intRecordCount);
-		break;
-	case 'C':
-		DisplayHousesByRace(&audtCensusRecords, intRecordCount);
-		break;
-	case 'D':
-		DisplayAverageHouseIncome(&audtCensusRecords, intRecordCount);
-		break;
-	case 'E':
-		DisplayAvgIncomeCountyState(&audtCensusRecords, intRecordCount);
-		break;
-	case 'F':
-		DisplayAvgIncomeByRace(&audtCensusRecords, intRecordCount);
-		break;
-	case 'G':
-		DisplayPercentBelowPoverty(&audtCensusRecords, intRecordCount);
-		break;
-	case 'H':
-		DisplayPovertyByCounty(&audtCensusRecords, intRecordCount);
-		break;
-	case 'I':
-		DisplayPovertyByRace(&audtCensusRecords, intRecordCount);
+		char chrChoice = MainMenu();
+
+		switch (chrChoice)
+		{
+		case 'A':
+			printf("Total Households surveyed: %d\n\n", intRecordCount);
+			break;
+		case 'B':
+			DisplayHousesByCounty(&audtCensusRecords, intRecordCount);
+			break;
+		case 'C':
+			DisplayHousesByRace(&audtCensusRecords, intRecordCount);
+			break;
+		case 'D':
+			DisplayAverageHouseIncome(&audtCensusRecords, intRecordCount);
+			break;
+		case 'E':
+			DisplayAvgIncomeCountyState(&audtCensusRecords, intRecordCount);
+			break;
+		case 'F':
+			DisplayAvgIncomeByRace(&audtCensusRecords, intRecordCount);
+			break;
+		case 'G':
+			DisplayPercentBelowPoverty(&audtCensusRecords, intRecordCount);
+			break;
+		case 'H':
+			DisplayPovertyByCounty(&audtCensusRecords, intRecordCount);
+			break;
+		case 'I':
+			DisplayPovertyByRace(&audtCensusRecords, intRecordCount);
+		}
+
+		printf("Do you want to make another selection (y/n)?");
+		scanf(" %c", &chrContinue);
 	}
 
 	free(audtCensusRecords);
@@ -115,7 +123,7 @@ void main()
 // Name: GetNumberOfRecords
 // Abstract: Get number of census records, this will tell us how large to make the array
 // --------------------------------------------------------------------------------
-int GetNumberOfRecords(FILE* pfilCensusData)
+int GetNumberOfRecords(FILE *pfilCensusData)
 {
 	int intRecordCount = 0;
 
@@ -139,16 +147,16 @@ int GetNumberOfRecords(FILE* pfilCensusData)
 // Name: CreateArray
 // Abstract: Create an array with size based on passed value
 // --------------------------------------------------------------------------------
-void CreateArray(udtCensusRecordType** ppaudtCensusRecords, int intArraySize)
+void CreateArray(udtCensusRecordType **ppaudtCensusRecords, int intArraySize)
 {
-	*ppaudtCensusRecords = (udtCensusRecordType*)malloc(sizeof(udtCensusRecordType) * intArraySize);
+	*ppaudtCensusRecords = (udtCensusRecordType *)malloc(sizeof(udtCensusRecordType) * intArraySize);
 }
 
 // --------------------------------------------------------------------------------
 // Name: PopulateArrayFromFile
 // Abstract: Populate array from passed file stream
 // --------------------------------------------------------------------------------
-void PopulateArrayFromFile(udtCensusRecordType** ppaudtCensusRecords, FILE* pfilCensusData, int intRecordCount)
+void PopulateArrayFromFile(udtCensusRecordType **ppaudtCensusRecords, FILE *pfilCensusData, int intRecordCount)
 {
 	// maximum size a line can be is 36 + null terminator, per restrictions from Gather_Data.c
 	char strCurrentLine[37] = "";
@@ -205,7 +213,7 @@ void PopulateArrayFromFile(udtCensusRecordType** ppaudtCensusRecords, FILE* pfil
 // Name: GetFileLineAtIndex
 // Abstract: Copies the specified line from a text file, first line is 0
 // --------------------------------------------------------------------------------
-void CopyFileLineAtIndex(char strDestination[], FILE* pfilCensusData, int intLine)
+void CopyFileLineAtIndex(char strDestination[], FILE *pfilCensusData, int intLine)
 {
 	int intRecordCount = 0;
 
@@ -220,7 +228,7 @@ void CopyFileLineAtIndex(char strDestination[], FILE* pfilCensusData, int intLin
 		}
 
 		if (intRecordCount == intLine)
-		{	
+		{
 			// advance fgetc pointer past previous newline, but only if not the first line
 			if (intRecordCount != 0)
 			{
@@ -284,7 +292,7 @@ void CopyCSVatIndex(char strDestination[], char strSourceCSV[], int intIndexCSV)
 // Abstract: Shows the main menu options, returns the choice as letter A through I
 // --------------------------------------------------------------------------------
 char MainMenu()
-{	
+{
 	char chrChoice = 0;
 
 	printf(
@@ -297,8 +305,7 @@ char MainMenu()
 		"F. Average Household Income by race\n"
 		"G. Percentage below Poverty\n"
 		"H. Percentage below Poverty by county and state\n"
-		"I. Percentage below Poverty by race\n"
-	);
+		"I. Percentage below Poverty by race\n");
 
 	// get choice
 	while (chrChoice < 'A' || chrChoice > 'I')
@@ -320,7 +327,7 @@ char MainMenu()
 // Name: DisplayHousesByCounty
 // Abstract: Shows how many houses are in each county
 // --------------------------------------------------------------------------------
-void DisplayHousesByCounty(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayHousesByCounty(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	int intHamiltonCount = 0;
 	int intButlerCount = 0;
@@ -365,7 +372,7 @@ void DisplayHousesByCounty(udtCensusRecordType** ppaudtCensusRecords, int intRec
 // Name: DisplayHousesByRace
 // Abstract: Shows how many houses per race
 // --------------------------------------------------------------------------------
-void DisplayHousesByRace(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayHousesByRace(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	int intCaucasian = 0;
 	int intAfricanAmerican = 0;
@@ -406,7 +413,7 @@ void DisplayHousesByRace(udtCensusRecordType** ppaudtCensusRecords, int intRecor
 // Name: DisplayAverageHouseIncome
 // Abstract: Shows average household income
 // --------------------------------------------------------------------------------
-void DisplayAverageHouseIncome(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayAverageHouseIncome(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	double dblTotalIncome = 0.0;
 
@@ -425,7 +432,7 @@ void DisplayAverageHouseIncome(udtCensusRecordType** ppaudtCensusRecords, int in
 // Name: DisplayAvgIncomeCountyState
 // Abstract: Shows average household income by county and state
 // --------------------------------------------------------------------------------
-void DisplayAvgIncomeCountyState(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayAvgIncomeCountyState(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	int intHamiltonCount = 0;
 	int intButlerCount = 0;
@@ -502,7 +509,7 @@ void DisplayAvgIncomeCountyState(udtCensusRecordType** ppaudtCensusRecords, int 
 // Name: DisplayAvgIncomeByRace
 // Abstract: Shows average income per race
 // --------------------------------------------------------------------------------
-void DisplayAvgIncomeByRace(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayAvgIncomeByRace(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	int intCaucasian = 0;
 	int intAfricanAmerican = 0;
@@ -582,7 +589,7 @@ void DisplayAvgIncomeByRace(udtCensusRecordType** ppaudtCensusRecords, int intRe
 // Name: DisplayPercentBelowPoverty
 // Abstract: Shows the percentage of households below the poverty line
 // --------------------------------------------------------------------------------
-void DisplayPercentBelowPoverty(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayPercentBelowPoverty(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	double dblTotalInPoverty = 0.0;
 
@@ -604,13 +611,13 @@ void DisplayPercentBelowPoverty(udtCensusRecordType** ppaudtCensusRecords, int i
 // Name: DisplayPovertyByCounty
 // Abstract: Shows the percentage of households below the poverty line per county
 // --------------------------------------------------------------------------------
-void DisplayPovertyByCounty(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayPovertyByCounty(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	int intHamiltonCount = 0;
 	int intButlerCount = 0;
 	int intBooneCount = 0;
 	int intKentonCount = 0;
-	
+
 	double dblHamiltonPoverty = 0.0;
 	double dblButlerPoverty = 0.0;
 	double dblBoonePoverty = 0.0;
@@ -681,7 +688,6 @@ void DisplayPovertyByCounty(udtCensusRecordType** ppaudtCensusRecords, int intRe
 		dblKentonPercent = 100 * (dblKentonPoverty / intKentonCount);
 	}
 
-
 	printf("==Ohio Poverty Percentages==\n");
 	printf("Hamilton County: %.2f%%\n", dblHamiltonPercent);
 	printf("Butler County: %.2f%%\n\n", dblButlerPercent);
@@ -694,7 +700,7 @@ void DisplayPovertyByCounty(udtCensusRecordType** ppaudtCensusRecords, int intRe
 // Name: DisplayPovertyByRace
 // Abstract: Shows the percentage of households below the poverty line per race
 // --------------------------------------------------------------------------------
-void DisplayPovertyByRace(udtCensusRecordType** ppaudtCensusRecords, int intRecordCount)
+void DisplayPovertyByRace(udtCensusRecordType **ppaudtCensusRecords, int intRecordCount)
 {
 	int intCaucasian = 0;
 	int intAfricanAmerican = 0;
@@ -783,7 +789,6 @@ void DisplayPovertyByRace(udtCensusRecordType** ppaudtCensusRecords, int intReco
 	printf("Hispanic: %.2f%%\n", dblHispanicPercent);
 	printf("Asian: %.2f%%\n", dblAsianPercent);
 	printf("Other: %.2f%%\n\n", dblOtherPercent);
-
 }
 
 // --------------------------------------------------------------------------------

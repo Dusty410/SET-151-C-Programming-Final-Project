@@ -24,7 +24,7 @@
 // --------------------------------------------------------------------------------
 // Prototypes
 // --------------------------------------------------------------------------------
-void GetCensusData(char strDate[], char strState[], char strCountyOhio[], char strCountyKentucky[], char strRace[], int* pintHouseHeadCount, float* pfltHouseIncome);
+void GetCensusData(char strDate[], char strState[], char strCountyOhio[], char strCountyKentucky[], char strRace[], int *pintHouseHeadCount, float *pfltHouseIncome);
 void BuildDataString(char strFinal[], char strDate[], char strState[], char strCountyOhio[], char strCountyKentucky[], char strRace[], int intHouseHeadCount, float fltHouseIncome);
 void WriteCensusData(char strFinal[]);
 
@@ -60,12 +60,19 @@ void main()
 	float fltHouseIncome = 0.0f;
 	// final data string, max size for a record is 36, plus newline, plus null terminator
 	char strDataFinal[38] = "";
+	
+	// exit variable
+	char chrContinue = 'y';
 
-	GetCensusData(strDate, strState, strCountyOhio, strCountyKentucky, strRace, &intHouseHeadCount, &fltHouseIncome);
-	BuildDataString(strDataFinal, strDate, strState, strCountyOhio, strCountyKentucky, strRace, intHouseHeadCount, fltHouseIncome);
-	WriteCensusData(strDataFinal);
+	while (chrContinue == 'y' || chrContinue == 'Y')
+	{
+		GetCensusData(strDate, strState, strCountyOhio, strCountyKentucky, strRace, &intHouseHeadCount, &fltHouseIncome);
+		BuildDataString(strDataFinal, strDate, strState, strCountyOhio, strCountyKentucky, strRace, intHouseHeadCount, fltHouseIncome);
+		WriteCensusData(strDataFinal);
 
-	//printf("%s", strDataFinal);
+		printf("Do you want to enter another record (y/n)?");
+		scanf(" %c", &chrContinue);
+	}
 
 	system("pause");
 }
@@ -74,7 +81,7 @@ void main()
 // Name: GetCensusData
 // Abstract: Gets census data from user
 // --------------------------------------------------------------------------------
-void GetCensusData(char strDate[], char strState[], char strCountyOhio[], char strCountyKentucky[], char strRace[], int* pintHouseHeadCount, float* pfltHouseIncome)
+void GetCensusData(char strDate[], char strState[], char strCountyOhio[], char strCountyKentucky[], char strRace[], int *pintHouseHeadCount, float *pfltHouseIncome)
 {
 	do
 	{
@@ -87,7 +94,7 @@ void GetCensusData(char strDate[], char strState[], char strCountyOhio[], char s
 		printf("Please enter the state, 1 for Ohio or 2 for Kentucky: ");
 		scanf("%1s", strState);
 	} while (!ValidChoiceRange(strState, 2));
-	
+
 	switch (strState[0])
 	{
 	case '1':
@@ -104,19 +111,20 @@ void GetCensusData(char strDate[], char strState[], char strCountyOhio[], char s
 			scanf("%1s", strCountyKentucky);
 		} while (!ValidChoiceRange(strCountyKentucky, 2));
 	}
-	
+
 	do
 	{
 		printf("Please choose a race:\n1. Caucasian\n2. African American\n3. Hispanic\n4. Asian\n5. Other\n");
-				scanf("%1s", strRace);
+		scanf("%1s", strRace);
 	} while (!ValidChoiceRange(strRace, 5));
 
 	// household head count shouldn't be less than 1 or greater than 99
-	while (*pintHouseHeadCount < 1 || *pintHouseHeadCount > 99) {
+	while (*pintHouseHeadCount < 1 || *pintHouseHeadCount > 99)
+	{
 		printf("Enter number of people in household: ");
 		scanf("%d", pintHouseHeadCount);
 	}
-	
+
 	// don't let income be less than or equal to 0, everyone makes something
 	// also, we don't have any trillionaires in the world <yet>,
 	// so income doesn't need to be greater than $999,999,999,999
@@ -156,15 +164,14 @@ void BuildDataString(char strFinal[], char strDate[], char strState[], char strC
 	Concatenate(strFinal, "\n");
 }
 
-
 // --------------------------------------------------------------------------------
 // Name: WriteCensusData
 // Abstract: Writes data to file
 // --------------------------------------------------------------------------------
 void WriteCensusData(char strFinal[])
-{	
+{
 	char strFileName[20] = "res/census_data.txt";
-	FILE* pfilCensusData = fopen(strFileName, "a");
+	FILE *pfilCensusData = fopen(strFileName, "a");
 	fputs(strFinal, pfilCensusData);
 	fclose(pfilCensusData);
 }
@@ -180,7 +187,7 @@ int ValidDate(char strDate[])
 	{
 		return 0;
 	}
-	
+
 	// check for correct locations of forward slashes
 	if (strDate[2] != '/' || strDate[5] != '/')
 	{
@@ -216,7 +223,7 @@ int ValidDate(char strDate[])
 	int intMonth = atoi(strMonth);
 	int intDay = atoi(strDay);
 	int intYear = atoi(strYear);
-	
+
 	// check year range
 	if (intYear < 1 || intYear > 9999)
 	{
